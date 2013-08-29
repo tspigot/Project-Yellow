@@ -1,0 +1,5 @@
+#pragma once
+#include <SDL.h>
+
+const SDL_Color BLACK = {0x0, 0x0, 0x0};
+const SDL_Color WHITE = {0xFF, 0xFF, 0xFF};
