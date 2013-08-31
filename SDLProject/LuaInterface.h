@@ -11,5 +11,6 @@ private:
 public:
 	~LuaInterface(void);
 	void call_function(std::string func, std::string fmt, ...);
+	void load_file(std::string filename);
 	static LuaInterface &get();
 };

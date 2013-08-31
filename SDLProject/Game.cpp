@@ -3,6 +3,8 @@
 #include "GameState.h"
 #include <SDL.h>
 #include "MainMenuGameState.h"
+#include "LuaInterface.h"
+#include "Log.h"
 
 Game::Game(int w, int h, int d) 
 {
@@ -26,6 +28,10 @@ bool Game::init_screen() {
 }
 
 void Game::start() {
+	double d = -1;
+	LuaInterface::get().load_file("test.lua");
+	LuaInterface::get().call_function("f", "d>d", 0.01, &d);
+	Log::Infof("%f\n", d);
 	bool quit=false;
 	SDL_Event event;
 	while(!quit) {
