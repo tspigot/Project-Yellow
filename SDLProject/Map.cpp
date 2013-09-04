@@ -8,20 +8,15 @@
 #include <math.h>
 #include <set>
 #include <map>
+#include "LuaInterface.h"
 
-Map::Map(int w, int h, Screen *s)
+Map::Map(Screen *s, std::string filename)
 {
-	this->w = w;
-	this->h = h;
-	tiles = new Tile*[h];
-	for(int i = 0; i < h; i++) {
-		tiles[i] = new Tile[w];
-		for(int j = 0; j < w; j++) {
-			tiles[i][j].type = Tile::Type::TILE_EMPTY;
-			tiles[i][j].highlighted = false;
-		}
-	}
+	this->w = -1;
+	this->h = -1;
+	this->tiles = NULL;
 	this->tile_drawer = new TileDrawer(s);
+	this->filename = filename;
 }
 
 
@@ -32,6 +27,32 @@ Map::~Map(void)
 		delete tiles[i];
 	}
 	delete tiles;
+}
+
+void Map::init() {
+	LuaInterface &lua = LuaInterface::get();
+	lua.load_file(this->filename);
+	lua.call_function("parse", ">");
+	lua.call_function("get_width", ">i", &this->w);
+	lua.call_function("get_height", ">i", &this->h);
+	char *cstr = NULL;
+	lua.call_function("get_type_string", ">s", &cstr);
+	std::string typestr(cstr);
+	delete cstr;
+	cstr = NULL;
+	std::map<char, TileType&> charmap;
+
+	for(int i = 0; i < typestr.length(); i++) {
+		std::string s;
+		s += typestr.at(i);
+		TileType t;
+		lua.call_function("get_tile_type", "s>i", s.c_str(), (int*)&t.type);
+		lua.call_function("get_tile_filename", "s>s", s.c_str(), &cstr);
+		t.filename = cstr;
+		delete cstr;
+		this->types.push_back(t);
+		charmap[typestr.at(i)] = types.back();
+	}
 }
 
 Tile *Map::get_tile(TileCoords tc) {

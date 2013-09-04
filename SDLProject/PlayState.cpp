@@ -18,9 +18,10 @@ PlayState::PlayState(Game *g) :
 	//SDL_Surface *s = TTF_RenderText(FontManager::inst().get("Lato-reg.ttf 32"), "You are now playing the game", WHITE, BLACK);
 	Sprite *spr = new TextSprite(FontManager::inst().get("Lato-reg.ttf 32"), "You are now playing the game", WHITE, BLACK, dim.w / 2, dim.h / 2, Sprite::Anchor::ANCHOR_CENTER);
 	this->sprites.push_back(spr);
-	map = new Map(10,10, g->get_screen());
-	map->get_tile(make_tile_coords(4,4))->type = Tile::Type::TILE_BLOCKING;
-	map->get_tile(make_tile_coords(3,5))->type = Tile::Type::TILE_BLOCKING;
+	map = new Map(g->get_screen(), "map.lua");
+	map->init();
+	//map->get_tile(make_tile_coords(4,4))->type = Tile::Type::TILE_BLOCKING;
+	//map->get_tile(make_tile_coords(3,5))->type = Tile::Type::TILE_BLOCKING;
 
 	spr = new Sprite(ImageManager::inst().get("unit.png"), 0, 0);
 	Unit *u = new Unit(spr, map, GroundMovementType::get(), 0, 0);

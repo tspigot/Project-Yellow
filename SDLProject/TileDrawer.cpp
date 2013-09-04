@@ -13,6 +13,7 @@ TileDrawer::~TileDrawer() {
 }
 
 std::string TileDrawer::get_tile_image_name(Tile *t) {
+	/*
 	switch(t->type) {
 	case Tile::Type::TILE_EMPTY:
 		return std::string("tile-empty.png");
@@ -21,6 +22,8 @@ std::string TileDrawer::get_tile_image_name(Tile *t) {
 	default:
 		return std::string("");
 	}
+	*/
+	return "";
 }
 
 void TileDrawer::draw_tile(Screen *s, Tile *t, int x, int y) {

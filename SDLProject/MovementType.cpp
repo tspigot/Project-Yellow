@@ -2,7 +2,7 @@
 #include "Tile.h"
 
 bool GroundMovementType::passable(Tile *t) {
-	if(t->type == Tile::Type::TILE_BLOCKING) {
+	if(t->t.type == TileType::TILE_BLOCKING) {
 		return false;
 	}
 	return true;

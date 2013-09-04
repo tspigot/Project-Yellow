@@ -1,11 +1,19 @@
 #pragma once
-struct Tile
+#include <string>
+
+struct TileType 
 {
-	enum Type {
-		TILE_EMPTY,
-		TILE_BLOCKING
+	enum MoveType {
+		TILE_EMPTY=0,
+		TILE_BLOCKING=1
 	};
-	Type type;
-	bool highlighted;
+	MoveType type;
+	std::string filename;
 };
 
+struct Tile
+{
+	const TileType &t;
+	bool highlighted;
+	Tile(const TileType &t);
+};
